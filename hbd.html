@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Celebration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-pink: #ff4d8d;
+            --secondary-pink: #ff69b4;
+            --light-pink: #ffb6c1;
+            --dark-pink: #ff1493;
+            --gradient: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 50%, #ff1493 100%);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: brown;
+            transition: background 0.5s ease;
+        }
+        
+        section {
+            min-height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            margin-bottom: 20px;
+        }
+        
+        section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .icon {
+            color: var(--primary-pink);
+            font-size: 2.2rem;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .subtext {
+            font-size: 1.1rem;
+            font-weight: 300;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, var(--primary-pink), var(--dark-pink));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 77, 141, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 77, 141, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .element {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Section 2: Special Message */
+        .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        /* Section 3: Video Section */
+        .video-container {
+            position: relative;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .birthday-video {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            border-radius: 15px;
+            display: block;
+        }
+        
+        .video-instruction {
+            margin-top: 15px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Flip Card Styles */
+        .flip-card-container {
+            width: 100%;
+            max-width: 800px;
+            perspective: 1500px;
+            margin: 20px auto;
+        }
+        
+        .flip-card {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            margin: 0 auto;
+        }
+        
+        .flip-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .flip-front {
+            background: linear-gradient(135deg, #ff9ebb 0%, #ffc2d1 100%);
+            border: 10px solid white;
+            color: #fff;
+        }
+        
+        .flip-back {
+            background: linear-gradient(135deg, #a2d2ff 0%, #bde0fe 100%);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        .flip-section {
+            width: 30%;
+            height: 45%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .flip-section.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-section-front, .flip-section-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .flip-section-front {
+            background: linear-gradient(135deg, #ffc8dd 0%, #ffafcc 100%);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .flip-section-back {
+            background: white;
+            transform: rotateY(180deg);
+            font-size: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .flip-message {
+            font-size: 1rem;
+            color: #ff5d8f;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+        
+        .flip-instruction {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+        
+        .counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #ff5d8f;
+        }
+        
+        /* Section 4: Surprise */
+        .surprise-message {
+            font-size: 1.7rem;
+            font-family: 'Dancing Script', cursive;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+        }
+        
+        .surprise-message.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Butterfly Styles */
+        .butterfly-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .butterfly {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            bottom: -50px;
+            animation: flutter 15s linear infinite;
+        }
+        
+        .butterfly .left-wing, .butterfly .right-wing {
+            position: absolute;
+            width: 15px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ffb6c1);
+            border-radius: 50% 50% 50% 0;
+            top: 5px;
+            animation: flap 0.3s ease-in-out infinite alternate;
+        }
+        
+        .butterfly .left-wing {
+            left: 0;
+            transform-origin: right center;
+        }
+        
+        .butterfly .right-wing {
+            right: 0;
+            transform-origin: left center;
+            border-radius: 50% 50% 0 50%;
+        }
+        
+        .butterfly .body {
+            position: absolute;
+            width: 6px;
+            height: 25px;
+            background: #333;
+            border-radius: 3px;
+            left: 12px;
+            top: 2px;
+        }
+        
+        .butterfly .antenna {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: #333;
+            top: 0;
+        }
+        
+        .butterfly .antenna.left {
+            left: 10px;
+            transform: rotate(-30deg);
+        }
+        
+        .butterfly .antenna.right {
+            right: 10px;
+            transform: rotate(30deg);
+        }
+        
+        /* Sparkle Styles */
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            animation: sparkle 2s infinite alternate;
+        }
+        
+        /* Section 5: Birthday Wishes */
+        .emoji {
+            font-size: 1.7rem;
+            animation: float-emoji 3s ease-in-out infinite;
+            display: inline-block;
+            margin: 0 4px;
+        }
+        
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .music-control:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .music-control i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            opacity: 0;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(0.95);
+            }
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.2;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-120vh) rotate(360deg);
+            }
+        }
+        
+        @keyframes float-emoji {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        
+        /* New butterfly animations */
+        @keyframes flutter {
+            0% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateX(25vw) translateY(-25vh) rotate(5deg);
+            }
+            50% {
+                transform: translateX(50vw) translateY(-50vh) rotate(0deg);
+            }
+            75% {
+                transform: translateX(25vw) translateY(-75vh) rotate(-5deg);
+            }
+            100% {
+                transform: translateX(0) translateY(-100vh) rotate(0deg);
+            }
+        }
+        
+        @keyframes flap {
+            0% {
+                transform: scaleY(0.8);
+            }
+            100% {
+                transform: scaleY(1);
+            }
+        }
+        
+        @keyframes sparkle {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .subtext {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+            
+            .video-container {
+                max-width: 90%;
+            }
+            
+            section {
+                min-height: 60vh;
+                padding: 15px;
+            }
+            
+            .flip-card {
+                height: 500px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .flip-section-back {
+                font-size: 3rem;
+            }
+            
+            .flip-message {
+                font-size: 0.9rem;
+            }
+            
+            .flip-section {
+                width: 45%;
+                height: 30%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .icon {
+                font-size: 1.8rem;
+            }
+            
+            .subtext {
+                font-size: 0.9rem;
+            }
+            
+            .card {
+                padding: 25px 15px;
+            }
+            
+            .video-container {
+                max-width: 95%;
+            }
+            
+            section {
+                min-height: 55vh;
+            }
+            
+            .flip-card {
+                height: 450px;
+            }
+            
+            .flip-section {
+                width: 90%;
+                height: 15%;
+            }
+            
+            .flip-back {
+                flex-direction: column;
+            }
+            
+            .flip-message {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Section 1: Birthday Greeting -->
+    <section id="section1" class="active">
+        <div class="floating-elements" id="elements-container1"></div>
+        <div class="container">
+            <div class="card">
+                <h1>
+                    <i class="fas fa-birthday-cake icon"></i>
+                    Happy Birthday, My Rasmalaiii!
+                    <i class="fas fa-birthday-cake icon"></i>
+                </h1>
+                
+                <p class="subtext">Today is all about celebrating you and May life always give you a reasons to smile💝</p>
+                <h3>2 October</h3> 
+                
+                <button class="btn" id="start-celebration-btn">
+                    Start the Celebration 🎉
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Special Message -->
+    <section id="section2">
+        <div class="stars-container" id="stars-container"></div>
+        <div class="container">
+            <div class="card">
+                <h1>
+                    <i class="fas fa-star icon"></i>
+                    A Special Message For You
+                    <i class="fas fa-star icon"></i>
+                </h1>
+                
+                <p class="subtext">Happy Birthday to a soul who carries so much light and magic within! 🤗 ✨ Today isn't just another day—it's the day the world was gifted with you, and that alone makes it special. 💖 Your kindness has a way of softening even the hardest moments, your laughter feels like sunshine after rain, and the way you care for others is a reminder of how beautiful a heart can truly be.🫶🏻🌸</p>
+
+<p class="subtext">On this day, I don't just wish you happiness; I wish you moments that take your breath away, quiet mornings that feel like peace, and nights filled with dreams so bright they guide you to everything your heart desires.  ✨🌻</p>
+<p class="subtext">May life keep surprising you in the sweetest ways, may love wrap around you like a gentle hug, and may you always remember how deeply you are valued—not just today, but every single day.💕🦋</p>
+
+<p class="subtext">Here's to new adventures, fearless growth, and memories that make you smile for years to come. 🫶🏻💐</p>
+<p class="subtext">Happy Birthday—you're a blessing this world didn't even know it🫂🧿❤
+</p>
+                
+                <button class="btn" id="next-btn-2">
+                    Next ➡️
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Video Section -->
+    <section id="section3">
+        <div class="container">
+            <div class="card">
+                <h1>
+                    <i class="fas fa-video icon"></i>
+                    A Special Video For You!
+                    <i class="fas fa-video icon"></i>
+                </h1>
+                
+                <p class="subtext">Watch this special birthday video made just for you!</p>
+                
+                <div class="video-container">
+                    <video class="birthday-video" id="birthday-video" controls>
+                        <!-- Replace with your actual video path -->
+                        <source src="rashivi.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                
+                <p class="video-instruction">Click the play button to watch the video</p>
+                
+                <button class="btn" id="next-btn-3">
+                    Next ➡️
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Flip Card Surprise -->
+    <section id="section4">
+        <div class="butterfly-container" id="butterfly-container"></div>
+        <div class="container">
+            <div class="card">
+                <h1>
+                    <i class="fas fa-gift icon"></i>
+                    Special Surprises For You
+                    <i class="fas fa-gift icon"></i>
+                </h1>
+                
+                <p class="subtext">Flip the card and then click each section to reveal your birthday surprises!</p>
+                
+                <div class="flip-card-container">
+                    <div class="flip-card" id="flip-card">
+                        <div class="card-side flip-front">
+                            <h1>Happy Birthday! 🎉</h1>
+                            <p>Click the button below to open your special birthday surprises!</p>
+                            <button class="btn" id="flip-card-btn">
+                                Open Your Surprises <i class="fas fa-gift"></i>
+                            </button>
+                            <div class="flip-instruction">
+                                Click or tap each section to reveal your birthday surprises
+                            </div>
+                        </div>
+                        <div class="card-side flip-back">
+                            <div class="counter" id="counter">0/6</div>
+                            <div class="flip-section" id="flip-section1">
+                                <div class="flip-section-front">
+                                    <h2>Surprise 1</h2>
+                                    <p>Click to reveal</p>
+                                </div>
+                                <div class="flip-section-back">
+                                    🎂
+                                    <p class="flip-message">Cake is yummy, but today it's just the excuse to celebrate you ✨</p>
+                                </div>
+                            </div>
+                            <div class="flip-section" id="flip-section2">
+                                <div class="flip-section-front">
+                                    <h2>Surprise 2</h2>
+                                    <p>Click to reveal</p>
+                                </div>
+                                <div class="flip-section-back">
+                                    🌸
+                                    <p class="flip-message">Some flowers shine, some glow..... but you outshine them all today😏✨</p>
+                                </div>
+                            </div>
+                            <div class="flip-section" id="flip-section3">
+                                <div class="flip-section-front">
+                                    <h2>Surprise 3</h2>
+                                    <p>Click to reveal</p>
+                                </div>
+                                <div class="flip-section-back">
+                                    🧸
+                                    <p class="flip-message">This teddy is here to hug you whenever you want… though it might get jealous of how adorable you are 🐻💕</p>
+                                </div>
+                            </div>
+                            <div class="flip-section" id="flip-section4">
+                                <div class="flip-section-front">
+                                    <h2>Surprise 4</h2>
+                                    <p>Click to reveal</p>
+                                </div>
+                                <div class="flip-section-back">
+                                    🍫
+                                    <p class="flip-message"> chocolates may melt... but your vibes melts everything around you👀😋
+</p>
+                                </div>
+                            </div>
+                            <div class="flip-section" id="flip-section5">
+                                <div class="flip-section-front">
+                                    <h2>Surprise 5</h2>
+                                    <p>Click to reveal</p>
+                                </div>
+                                <div class="flip-section-back">
+                                    🎁
+                                    <p class="flip-message">This gift is wrapped… but the biggest surprise? Still you 💥😎</p>
+                                </div>
+                            </div>
+                            <div class="flip-section" id="flip-section6">
+                                <div class="flip-section-front">
+                                    <h2>Surprise 6</h2>
+                                    <p>Click to reveal</p>
+                                </div>
+                                <div class="flip-section-back">
+                                    🚗
+                                    <p class="flip-message">No speed limit today… because your birthday energy can't be slowed 🚗🔥</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" id="next-btn-4" style="display: none;">
+                    Next ➡️
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Birthday Wishes -->
+    <section id="section5">
+        <div class="floating-elements" id="elements-container5"></div>
+        <div class="container">
+            <div class="card">
+                <h1>
+                    <i class="fas fa-birthday-cake icon"></i>
+                    Final Greeting
+                    <i class="fas fa-birthday-cake icon"></i>
+                </h1>
+                
+                <p class="subtext">Every day belongs to you but today is extra special...🤗 I Hope ye chhota sa gift tumhe thodi si khushi de gaya ho.😄
+Tum tum ho🤌🏻 thode se silly, thode se annoying bohot bade pagal or kbhi kbhi thode se pyare bhi, but genuinely i love the way you annoy me🤪 keep annoying me! With your silly jokes and lots of pagal pan🫶🏻😁
+Tum humesha tum he rehna🫂✨
+Hamesha aise hi haste raho, mujhe kilsate raho, apni care karte raho, aur chhanga feel karte raho💝 
+</p>
+                
+                
+                <p class="subtext" style="margin-top: 30px; font-size: 1.5rem; font-weight: 600;">
+                    Happiest Birthday once again!🥂🎈
+                </p>
+                <p class="subtext" style="margin-top: 30px; font-size: 1.5rem; font-weight: 600;">
+                    from Rashi gola
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Control -->
+    <div class="music-control" id="music-control">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <!-- Birthday Song Audio -->
+    <audio id="birthday-song" loop>
+    <source src="C:\Users\anushk gupta\Downloads\Tenu Sang Rakhna Jigra 128 Kbps.mp3" type="audio/mpeg">
+</audio>
+
+    <script>
+        // Create floating elements (stars and balloons)
+        function createElements(containerId, type, count = 15) {
+            const elementsContainer = document.getElementById(containerId);
+            
+            for (let i = 0; i < count; i++) {
+                const element = document.createElement('i');
+                
+                if (type === 'star') {
+                    element.classList.add('fas', 'fa-star', 'element');
+                } else if (type === 'gift') {
+                    element.classList.add('fas', 'fa-gift', 'element');
+                } else {
+                    element.classList.add('fas', 'fa-birthday-cake', 'element');
+                }
+                
+                // Random position
+                const left = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = 5 + Math.random() * 5;
+                
+                element.style.left = `${left}%`;
+                element.style.animationDelay = `${delay}s`;
+                element.style.animationDuration = `${duration}s`;
+                
+                elementsContainer.appendChild(element);
+            }
+        }
+        
+        // Create twinkling stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            const starCount = 50;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = 2 + Math.random() * 4;
+                
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.animationDelay = `${delay}s`;
+                star.style.animationDuration = `${duration}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Create butterflies and sparkles for section 4
+        function createButterfliesAndSparkles() {
+            const butterflyContainer = document.getElementById('butterfly-container');
+            const butterflyCount = 10;
+            const sparkleCount = 20;
+            
+            // Create butterflies
+            for (let i = 0; i < butterflyCount; i++) {
+                const butterfly = document.createElement('div');
+                butterfly.classList.add('butterfly');
+                
+                // Random properties
+                const left = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 15 + Math.random() * 10;
+                
+                butterfly.style.left = `${left}%`;
+                butterfly.style.animationDelay = `${delay}s`;
+                butterfly.style.animationDuration = `${duration}s`;
+                
+                // Create butterfly parts
+                const leftWing = document.createElement('div');
+                leftWing.classList.add('left-wing');
+                
+                const rightWing = document.createElement('div');
+                rightWing.classList.add('right-wing');
+                
+                const body = document.createElement('div');
+                body.classList.add('body');
+                
+                const leftAntenna = document.createElement('div');
+                leftAntenna.classList.add('antenna', 'left');
+                
+                const rightAntenna = document.createElement('div');
+                rightAntenna.classList.add('antenna', 'right');
+                
+                butterfly.appendChild(leftWing);
+                butterfly.appendChild(rightWing);
+                butterfly.appendChild(body);
+                butterfly.appendChild(leftAntenna);
+                butterfly.appendChild(rightAntenna);
+                
+                butterflyContainer.appendChild(butterfly);
+            }
+            
+            // Create sparkles
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                
+                // Random properties
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = 2 + Math.random() * 3;
+                
+                sparkle.style.left = `${left}%`;
+                sparkle.style.top = `${top}%`;
+                sparkle.style.animationDelay = `${delay}s`;
+                sparkle.style.animationDuration = `${duration}s`;
+                
+                butterflyContainer.appendChild(sparkle);
+            }
+        }
+        
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#ff4d8d', '#ff9a9e', '#fad0c4', '#a1c4fd', '#c2e9fb', '#ffecd2'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Random properties
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 10 + 5;
+                const left = Math.random() * 100;
+                const animationDelay = Math.random() * 5;
+                const animationDuration = Math.random() * 3 + 3;
+                
+                confetti.style.backgroundColor = color;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.left = `${left}vw`;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                
+                document.body.appendChild(confetti);
+                
+                // Animate confetti
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(100vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: animationDuration * 1000,
+                    delay: animationDelay * 1000,
+                    easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
+                });
+                
+                // Remove confetti after animation
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+        
+        // Section navigation
+        let currentSection = 1;
+        
+        function showSection(sectionNumber) {
+            // Hide current section
+            document.getElementById(`section${currentSection}`).classList.remove('active');
+            
+            // Show new section
+            document.getElementById(`section${sectionNumber}`).classList.add('active');
+            
+            currentSection = sectionNumber;
+            
+            // Special effects for specific sections
+            if (sectionNumber === 2) {
+                createStars();
+            } else if (sectionNumber === 4) {
+                createButterfliesAndSparkles();
+            } else if (sectionNumber === 5) {
+                createElements('elements-container5', 'birthday-cake', 20);
+            }
+        }
+        
+        // Music controls
+        const birthdaySong = document.getElementById('birthday-song');
+        const musicControl = document.getElementById('music-control');
+        let isPlaying = false;
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                birthdaySong.pause();
+                musicControl.innerHTML = '<i class="fas fa-music"></i>';
+            } else {
+                birthdaySong.play().catch(e => {
+                    console.log("Autoplay prevented. User interaction required.");
+                });
+                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        }
+        
+        // Flip card functionality
+        document.getElementById('flip-card-btn').addEventListener('click', function() {
+            document.getElementById('flip-card').classList.add('flipped');
+            createConfetti();
+        });
+        
+        // Flip individual sections
+        const flipSections = document.querySelectorAll('.flip-section');
+        const counter = document.getElementById('counter');
+        let flippedCount = 0;
+        
+        flipSections.forEach(section => {
+            section.addEventListener('click', function() {
+                if (!this.classList.contains('flipped')) {
+                    this.classList.add('flipped');
+                    flippedCount++;
+                    counter.textContent = `${flippedCount}/6`;
+                    createConfetti();
+                    
+                    // Check if all sections are flipped
+                    if (flippedCount === 6) {
+                        setTimeout(() => {
+                            createConfetti(50);
+                            // Show next button after all sections are flipped
+                            document.getElementById('next-btn-4').style.display = 'inline-flex';
+                        }, 500);
+                    }
+                }
+            });
+        });
+        
+        // Event listeners
+        document.getElementById('start-celebration-btn').addEventListener('click', function() {
+            showSection(2);
+            // Start playing music
+            toggleMusic();
+        });
+        
+        document.getElementById('next-btn-2').addEventListener('click', function() {
+            showSection(3);
+        });
+        
+        document.getElementById('next-btn-3').addEventListener('click', function() {
+            showSection(4);
+        });
+        
+        document.getElementById('next-btn-4').addEventListener('click', function() {
+            showSection(5);
+        });
+        
+        musicControl.addEventListener('click', toggleMusic);
+        
+        // Initialize the page
+        window.addEventListener('DOMContentLoaded', function() {
+            createElements('elements-container1', 'star');
+        });
+    </script>
+</body>
+</html>
